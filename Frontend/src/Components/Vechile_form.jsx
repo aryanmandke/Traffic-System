@@ -22,6 +22,8 @@ const VehicleForm = () => {
     marginTop: "15px",
   };
 
+  const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY; // Use environment variable for API key
+
   const center = location.lat && location.lng ? location : { lat: 19.022237, lng: 72.856052 };
 
   const handleMapClick = (e) => {
@@ -195,7 +197,7 @@ const VehicleForm = () => {
           </div>
 
           <LoadScript
-            googleMapsApiKey="AIzaSyBkeCfidUFW47IA3FPLOcALGE1iyxQB88s"
+            googleMapsApiKey={googleMapsApiKey}
             onLoad={() => setMapError(false)}
             onError={() => setMapError(true)}
           >
@@ -205,7 +207,7 @@ const VehicleForm = () => {
               zoom={15}
               onClick={handleMapClick}
             >
-              {location.lat && location.lng && <MarkerF position={location} />}
+              {source.lat && source.lng && <MarkerF position={source} />}
               {destination.lat && destination.lng && <MarkerF position={destination} />}
             </GoogleMap>
           </LoadScript>

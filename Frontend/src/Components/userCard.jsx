@@ -33,7 +33,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
     setErrorMessage("");
 
     try {
-      const response = await axios.put(
+      const response = await axios.post(
         "http://localhost:3000/api/v1/add-police-message",
         {
           serial_no: user.serial_no, // Include serial_no in the body
@@ -42,7 +42,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
       );
 
       if (response.status === 200) {
-        const updatedMessage = response.data.updatedMessage || newMessage;
+        const updatedMessage = response.data.data.message || newMessage;
         setNewMessage(updatedMessage);
         setIsEditing(false);
         setErrorMessage("");

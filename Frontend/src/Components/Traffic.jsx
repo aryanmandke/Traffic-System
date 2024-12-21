@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import UserCard from './UserCard';
+import UserCard from './userCard';
 import MapView from './MapView';
 
 const Traffic = () => {

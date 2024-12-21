@@ -13,35 +13,39 @@ const sendErrorResponse = (res, status, message, details = []) => {
 
 // Validation Schemas
 const messageSchema = Joi.object({
-  serial_no: Joi.string().required().messages({
+  serial_no: Joi.string().trim().required().messages({
     "string.empty": "Serial number is required.",
     "any.required": "Serial number is mandatory.",
   }),
-  message: Joi.string().required().messages({
+  message: Joi.string().trim().required().messages({
     "string.empty": "Message is required.",
     "any.required": "Message is mandatory.",
   }),
 });
 
 const locationSchema = Joi.object({
-  serial_no: Joi.string().required().messages({
+  serial_no: Joi.string().trim().required().messages({
     "string.empty": "Serial number is required.",
     "any.required": "Serial number is mandatory.",
   }),
   source: Joi.object({
     lat: Joi.number().required().messages({ "any.required": "Source latitude is required." }),
     lng: Joi.number().required().messages({ "any.required": "Source longitude is required." }),
-  }).required(),
+  })
+    .required()
+    .messages({ "any.required": "Source location is required." }),
   destination: Joi.object({
     lat: Joi.number().required().messages({ "any.required": "Destination latitude is required." }),
     lng: Joi.number().required().messages({ "any.required": "Destination longitude is required." }),
-  }).required(),
+  })
+    .required()
+    .messages({ "any.required": "Destination location is required." }),
 });
 
 // Route: Get all driver data
 router.get("/get-user-data", async (req, res) => {
   try {
-    const users = await User.find().sort({ createdAt: -1 }).select("-__v").lean();
+    const users = await User.find().sort({ createdAt: -1 }).select("serial_no type_of_vehicle vehicle_number source destination message").lean();
 
     const userData = users.map((user) => ({
       serial_no: user.serial_no,
@@ -58,7 +62,7 @@ router.get("/get-user-data", async (req, res) => {
       data: userData,
     });
   } catch (error) {
-    console.error("Error fetching user data:", error.message);
+    console.error("Error fetching user data:", { error: error.message });
     sendErrorResponse(res, 500, "Failed to fetch user data.");
   }
 });
@@ -75,7 +79,7 @@ router.post("/add-police-message", async (req, res) => {
       { serial_no: value.serial_no },
       { message: value.message },
       { new: true }
-    ).lean();
+    ).select("serial_no message").lean();
 
     if (!updatedUser) {
       return sendErrorResponse(res, 404, "Driver not found.");
@@ -87,7 +91,7 @@ router.post("/add-police-message", async (req, res) => {
       data: updatedUser,
     });
   } catch (error) {
-    console.error("Error adding police message:", error.message, { body: req.body });
+    console.error("Error adding police message:", { error: error.message, body: req.body });
     sendErrorResponse(res, 500, "Failed to add police message.");
   }
 });
@@ -110,14 +114,14 @@ router.get("/get-live-location/:serial_no?", async (req, res) => {
       });
     }
 
-    const drivers = await User.find().select("source destination").lean();
+    const drivers = await User.find().select("serial_no source destination").lean();
     res.status(200).json({
       success: true,
       message: "Live locations fetched successfully.",
       data: drivers,
     });
   } catch (error) {
-    console.error("Error fetching live locations:", error.message, { serial_no });
+    console.error("Error fetching live locations:", { error: error.message, serial_no });
     sendErrorResponse(res, 500, "Failed to fetch live locations.");
   }
 });
@@ -134,7 +138,7 @@ router.post("/update-location", async (req, res) => {
       { serial_no: value.serial_no },
       { source: value.source, destination: value.destination },
       { new: true }
-    ).lean();
+    ).select("serial_no source destination").lean();
 
     if (!updatedUser) {
       return sendErrorResponse(res, 404, "Driver not found.");
@@ -146,7 +150,7 @@ router.post("/update-location", async (req, res) => {
       data: updatedUser,
     });
   } catch (error) {
-    console.error("Error updating location:", error.message, { body: req.body });
+    console.error("Error updating location:", { error: error.message, body: req.body });
     sendErrorResponse(res, 500, "Failed to update source or destination.");
   }
 });
