@@ -24,7 +24,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
   };
 
   const handleSave = async () => {
-    if (!user.serial_no) {  // Change to serial_no
+    if (!user.serial_no) {
       setErrorMessage("Serial number is missing.");
       return;
     }
@@ -35,18 +35,24 @@ const UserCard = ({ user, onUpdateMessage }) => {
     try {
       const response = await axios.put(
         "http://localhost:3000/api/v1/add-police-message",
-        { message: newMessage },
-        { headers: { "serial-no": user.serial_no } } // Pass serial_no in headers
+        {
+          serial_no: user.serial_no, // Include serial_no in the body
+          message: newMessage,
+        }
       );
 
-      setIsEditing(false);
-      setErrorMessage("");
-      const updatedMessage = response.data.updatedMessage || newMessage;
+      if (response.status === 200) {
+        const updatedMessage = response.data.updatedMessage || newMessage;
+        setNewMessage(updatedMessage);
+        setIsEditing(false);
+        setErrorMessage("");
 
-      // Update the state and notify the parent
-      setNewMessage(updatedMessage);
-      if (onUpdateMessage) {
-        onUpdateMessage(updatedMessage);
+        // Notify the parent component
+        if (onUpdateMessage) {
+          onUpdateMessage(updatedMessage);
+        }
+      } else {
+        throw new Error("Failed to update message. Unexpected response.");
       }
     } catch (error) {
       console.error("Error updating message:", error);
@@ -69,7 +75,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
       <ul className="list-group list-group-flush">
         <li className="list-group-item p-4">
           <span className="text-gray-700">
-            <span className="font-medium">Serial No:</span> {user.serial_no || "N/A"}  {/* Changed to serial_no */}
+            <span className="font-medium">Serial No:</span> {user.serial_no || "N/A"}
           </span>
         </li>
         <li className="list-group-item p-4">
@@ -155,7 +161,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
 
 UserCard.propTypes = {
   user: PropTypes.shape({
-    serial_no: PropTypes.string.isRequired,  // Changed to serial_no
+    serial_no: PropTypes.string.isRequired,
     vehicle_no: PropTypes.string,
     type_of_vehicle: PropTypes.string,
     source: PropTypes.shape({

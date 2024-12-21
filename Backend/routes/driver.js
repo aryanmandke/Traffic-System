@@ -85,11 +85,23 @@ router.post("/add-user-data", async (req, res) => {
 router.get("/get-driver-message/:serial_no", async (req, res) => {
   const { serial_no } = req.params;
 
+  console.log("Serial Number Received:", serial_no); // Debugging
+
+  // Check if serial_no is provided
+  if (!serial_no) {
+    return sendErrorResponse(res, 400, "No serial number provided.");
+  }
+
   try {
     // Fetch driver data by serial_no
     const driver = await User.findOne({ serial_no }).lean();
     if (!driver) {
       return sendErrorResponse(res, 404, "Driver with the specified serial number not found.");
+    }
+
+    // Ensure source and destination are valid objects
+    if (!driver.source || !driver.destination) {
+      return sendErrorResponse(res, 400, "Source or destination data is incomplete.");
     }
 
     res.status(200).json({

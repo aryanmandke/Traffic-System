@@ -21,11 +21,11 @@ const MapView = ({ locations = [], onSourceChange, onDestinationChange }) => {
   const [source, setSource] = useState(defaultSource);
   const [destination, setDestination] = useState(defaultDestination);
 
-  // If locations are passed, update the markers
+  // Update source and destination markers if locations prop changes
   useEffect(() => {
     if (locations.length > 0) {
-      const newSource = locations[0].source;
-      const newDestination = locations[0].destination;
+      const newSource = locations[0]?.source;
+      const newDestination = locations[0]?.destination;
 
       if (isValidCoordinates(newSource)) {
         setSource(newSource);
@@ -39,20 +39,21 @@ const MapView = ({ locations = [], onSourceChange, onDestinationChange }) => {
 
   // Handle error loading Google Maps
   if (loadError) {
-    return <p>Error loading map. Please try again later.</p>;
+    return <p style={{ color: "red", textAlign: "center" }}>Error loading map. Please try again later.</p>;
   }
 
-  // Loading state
+  // Display loading state
   if (!isLoaded) {
-    return <p>Loading map...</p>;
+    return <p style={{ textAlign: "center" }}>Loading map...</p>;
   }
 
+  // Map center and zoom level
   const center = isValidCoordinates(source) ? source : defaultSource;
   const zoom = isValidCoordinates(source) && isValidCoordinates(destination) ? 12 : 10;
 
   return (
     <GoogleMap
-      mapContainerStyle={{ width: "100%", height: "400px" }}
+      mapContainerStyle={{ width: "100%", height: "400px", borderRadius: "8px", marginTop: "15px" }}
       center={center}
       zoom={zoom}
     >

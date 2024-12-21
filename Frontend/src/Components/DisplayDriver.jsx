@@ -1,5 +1,3 @@
-//jihpyvuyvb 
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,54 +14,57 @@ const DisplayDriver = () => {
   const [source, setSource] = useState(null);
   const [destination, setDestination] = useState(null);
 
+  // Fetch driver data
   const fetchData = async () => {
     if (!serial_no) {
-      setError("No serial number provided.");
+      setError("No serial number provided. Please go back and enter a valid serial number.");
       setLoading(false);
       return;
     }
 
     try {
+      setLoading(true);
       const response = await axios.get(
-        `http://localhost:3000/api/v1/get-driver-message/${serial_no}` // Ensure API call uses serial_no
+        `http://localhost:3000/api/v1/get-driver-message/${serial_no}`
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.success) {
         const fetchedData = response.data.data;
-        console.log("Fetched Data:", fetchedData); // Debugging
-        setData(fetchedData);
+        console.log("Fetched Data:", fetchedData);
 
-        // Validate and set source and destination
-        setSource(
-          fetchedData.source?.lat && fetchedData.source?.lng
-            ? fetchedData.source
-            : null
-        );
-        setDestination(
-          fetchedData.destination?.lat && fetchedData.destination?.lng
-            ? fetchedData.destination
-            : null
-        );
-        setError("");
+        setData(fetchedData);
+        setSource(fetchedData.source || null);
+        setDestination(fetchedData.destination || null);
+        setError(""); // Clear error if successful
       } else {
-        setError("Unexpected response from the server.");
+        setError(response.data.message || "Unexpected response from the server.");
       }
     } catch (err) {
-      console.error("Fetch Error:", err); // Debugging
+      console.error("Fetch Error:", err);
       setError(err.response?.data?.message || "Failed to fetch driver data.");
     } finally {
       setLoading(false);
     }
   };
 
+  // Effect: Fetch driver data on component mount and refresh periodically
   useEffect(() => {
     fetchData();
     const interval = setInterval(fetchData, 5000); // Refresh data every 5 seconds
-    return () => clearInterval(interval); // Clean up interval on unmount
+    return () => clearInterval(interval); // Clean up on component unmount
   }, [serial_no]);
 
-  const handleSourceChange = (latLng) => setSource(latLng);
-  const handleDestinationChange = (latLng) => setDestination(latLng);
+  // Handle source location change
+  const handleSourceChange = (latLng) => {
+    setSource(latLng);
+    console.log("Updated Source:", latLng);
+  };
+
+  // Handle destination location change
+  const handleDestinationChange = (latLng) => {
+    setDestination(latLng);
+    console.log("Updated Destination:", latLng);
+  };
 
   return (
     <div
@@ -87,7 +88,7 @@ const DisplayDriver = () => {
       >
         <h2 style={{ textAlign: "center" }}>Driver Details</h2>
 
-        {/* Error Handling */}
+        {/* Error Message */}
         {error && (
           <div style={{ textAlign: "center" }}>
             <p style={{ color: "red" }}>{error}</p>
@@ -107,13 +108,14 @@ const DisplayDriver = () => {
           </div>
         )}
 
-        {/* Loading State */}
-        {loading ? (
-          <p>Loading driver details...</p>
-        ) : data ? (
+        {/* Loading Indicator */}
+        {loading && <p>Loading driver details...</p>}
+
+        {/* Driver Data */}
+        {!loading && data && !error && (
           <>
             <p>
-              <strong>Serial No:</strong> {data.serial_no || "N/A"} {/* Updated to display serial_no */}
+              <strong>Serial No:</strong> {data.serial_no || "N/A"}
             </p>
             <p>
               <strong>Type of Vehicle:</strong> {data.type_of_vehicle || "N/A"}
@@ -130,14 +132,13 @@ const DisplayDriver = () => {
               {destination ? `${destination.lat}, ${destination.lng}` : "N/A"}
             </p>
             <p>
-              <strong>Traffic Department's Message:</strong> {data.message || "N/A"}
+              <strong>Traffic Department's Message:</strong>{" "}
+              {data.message || "N/A"}
             </p>
           </>
-        ) : (
-          <p>No data available for the specified serial number.</p>
         )}
 
-        {/* MapView for Source and Destination */}
+        {/* MapView */}
         {source && destination && (
           <MapView
             locations={{ source, destination }}
