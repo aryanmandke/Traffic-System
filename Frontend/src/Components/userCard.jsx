@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { format } from "date-fns";
-import '../Design/UserCard.css'; // Ensure this path matches your actual file location
+import '../Design/userCard.css'; // Ensure this path matches your actual file location
 
 
 const UserCard = ({ user, onUpdateMessage }) => {
