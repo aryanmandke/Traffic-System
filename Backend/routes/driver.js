@@ -52,6 +52,7 @@ router.post("/add-user-data", async (req, res) => {
   try {
     // Validate the request body using Joi schema
     const { error, value } = driverSchema.validate(req.body, { abortEarly: false });
+    console.log("Post is running");
     if (error) {
       const validationErrors = error.details.map((err) => ({
         field: err.context.key,
