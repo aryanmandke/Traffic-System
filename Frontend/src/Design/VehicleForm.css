@@ -1,0 +1,121 @@
+/* General Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+  }
+  
+  /* Centered Form Container */
+  .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .form-card {
+    max-width: 500px;
+    width: 100%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Input and Select Fields */
+  input,
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  input:focus,
+  select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  /* Form Labels */
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* Map Styling */
+  .map-container {
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 15px;
+  }
+  
+  /* Start Button */
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Hover Effect on Button */
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Loading Button */
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Error Message */
+  .error-message {
+    color: red;
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  /* Map Error */
+  .map-error {
+    color: red;
+    text-align: center;
+  }
+  
+  /* Success or Disabled Button */
+  button.processing {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .form-card {
+      width: 100%;
+      padding: 15px;
+    }
+  
+    input,
+    select {
+      font-size: 14px;
+    }
+  
+    button {
+      font-size: 14px;
+    }
+  }
+  

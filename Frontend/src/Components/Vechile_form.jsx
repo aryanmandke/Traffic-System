@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api";
+import '../Design/VehicleForm.css';
 
 const VehicleForm = () => {
   const navigate = useNavigate();
@@ -135,6 +136,7 @@ const VehicleForm = () => {
           boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
         }}
       >
+        <div><h1>Driver's Form</h1></div>
         <form>
           <div style={{ marginBottom: "15px" }}>
             <label style={{ display: "block", fontWeight: "bold", marginBottom: "5px" }}>

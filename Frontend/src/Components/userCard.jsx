@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { format } from "date-fns";
+import '../Design/UserCard.css'; // Ensure this path matches your actual file location
+
 
 const UserCard = ({ user, onUpdateMessage }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -69,8 +71,10 @@ const UserCard = ({ user, onUpdateMessage }) => {
       </div>
     );
   }
+  
 
   return (
+    
     <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-lg hover:shadow-xl transition-transform transform hover:scale-105 w-72">
       <ul className="list-group list-group-flush">
         <li className="list-group-item p-4">
@@ -106,32 +110,57 @@ const UserCard = ({ user, onUpdateMessage }) => {
         </li>
         <li className="list-group-item p-4 flex justify-between items-center">
           {isEditing ? (
-            <div className="flex items-center space-x-2 w-full">
-              <input
-                type="text"
-                value={newMessage}
-                onChange={handleMessageChange}
-                className="p-2 border border-gray-300 rounded-md w-full"
-                placeholder="Enter new message"
-                aria-label="Edit message"
-                disabled={isLoading}
-              />
-              <button
-                onClick={handleSave}
-                className="text-green-500 hover:text-green-700 cursor-pointer"
-                disabled={isLoading}
-                aria-label="Save message"
-              >
-                {isLoading ? "Saving..." : "Save"}
-              </button>
-              <button
-                onClick={handleCancel}
-                className="text-red-500 hover:text-red-700 cursor-pointer"
-                aria-label="Cancel editing"
-              >
-                Cancel
-              </button>
-            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%" }}>
+            <input
+              type="text"
+              value={newMessage}
+              onChange={handleMessageChange}
+              style={{
+                padding: "8px",
+                border: "2px solid #d1d5db", // gray-300
+                borderRadius: "8px",
+                width: "100%",
+                fontSize: "16px",
+                outline: "none",
+                transition: "border-color 0.3s ease",
+              }}
+              placeholder="Enter new message"
+              aria-label="Edit message"
+              disabled={isLoading}
+            />
+            <button
+              onClick={handleSave}
+              style={{
+                padding: "8px 16px",
+                color: "#10b981", // green-500
+                cursor: "pointer",
+                border: "none",
+                background: "transparent",
+                fontSize: "16px",
+                transition: "color 0.3s ease",
+              }}
+              disabled={isLoading}
+              aria-label="Save message"
+            >
+              {isLoading ? "Saving..." : "Save"}
+            </button>
+            <button
+              onClick={handleCancel}
+              style={{
+                padding: "8px 16px",
+                color: "#f43f5e", // red-500
+                cursor: "pointer",
+                border: "none",
+                background: "transparent",
+                fontSize: "16px",
+                transition: "color 0.3s ease",
+              }}
+              aria-label="Cancel editing"
+            >
+              Cancel
+            </button>
+          </div>
+          
           ) : (
             <div className="flex justify-between items-center w-full">
               <span className="text-gray-700">
@@ -153,7 +182,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
       )}
       <p className="text-gray-500 text-sm mt-4 border-t pt-3">
         <span className="font-medium">Joined:</span>{" "}
-        {user.createdAt ? format(new Date(user.createdAt), "PPPpp") : "N/A"}
+        {user.createdAt ? format(new Date(user.createdAt), "PPPpp") : "23/12/2024"}
       </p>
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserCard from './userCard';
 import MapView from './MapView';
+import '../Design/Traffic.css';
 
 const Traffic = () => {
   const [users, setUsers] = useState([]);

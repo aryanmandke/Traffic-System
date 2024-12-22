@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import MapView from "./MapView";
+import '../Design/DisplayDriver.css';
 
 const DisplayDriver = () => {
   const location = useLocation();
@@ -141,7 +142,7 @@ const DisplayDriver = () => {
         {/* MapView */}
         {source && destination && (
           <MapView
-            locations={{ source, destination }}
+            locations={[{ source, destination }]} // Pass source and destination as an array
             onSourceChange={handleSourceChange}
             onDestinationChange={handleDestinationChange}
           />
