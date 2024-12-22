@@ -36,7 +36,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/add-police-message",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/add-police-message`,
         {
           serial_no: user.serial_no, // Include serial_no in the body
           message: newMessage,

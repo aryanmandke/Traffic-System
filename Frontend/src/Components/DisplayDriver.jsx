@@ -26,7 +26,7 @@ const DisplayDriver = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:3000/api/v1/get-driver-message/${serial_no}`
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/v1/get-driver-message/${serial_no}`
       );
 
       if (response.status === 200 && response.data.success) {

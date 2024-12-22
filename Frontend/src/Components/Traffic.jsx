@@ -12,7 +12,7 @@ const Traffic = () => {
   // Fetch user data from the backend
   const fetchUserData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/v1/get-user-data');
+      const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/v1/get-user-data`);
       if (response.status === 200 && response.data.data) {
         setUsers(response.data.data);
       } else {

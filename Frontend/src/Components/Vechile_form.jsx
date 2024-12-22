@@ -73,7 +73,7 @@ const VehicleForm = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/add-user-data", {
+      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/v1/add-user-data`, {
         serial_no: serialNo,
         type_of_vehicle: vehicleType,
         vehicle_number: vehicleNumber,
