@@ -87,7 +87,7 @@ const VehicleForm = () => {
       if (error.response) {
         console.error("Server error response:", error.response.data);
         if (error.response.status === 409) {
-          setErrorMessage("Conflict: The data provided may already exist or be invalid. Please check your input.");
+          setErrorMessage("Try Another Serial Number");
         } else {
           setErrorMessage(`Error: ${error.response.data.message || "An unexpected error occurred."}`);
         }
