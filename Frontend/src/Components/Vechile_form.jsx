@@ -35,8 +35,8 @@ const VehicleForm = () => {
   };
 
   const validateInputs = () => {
-    if (!serialNo.trim()) {
-      setErrorMessage("Serial number is required.");
+    if (!serialNo.trim() || serialNo.length < 3) {
+      setErrorMessage("Serial number is required and must be at least 3 characters long.");
       return false;
     }
 
@@ -45,8 +45,8 @@ const VehicleForm = () => {
       return false;
     }
 
-    if (!vehicleNumber.trim()) {
-      setErrorMessage("Vehicle number is required.");
+    if (!vehicleNumber.trim() || vehicleNumber.length < 4) {
+      setErrorMessage("Vehicle number is required and must be at least 4 characters long.");
       return false;
     }
 
@@ -84,8 +84,20 @@ const VehicleForm = () => {
       const { _id } = response.data;
       navigate("/display-driver", { state: { _id, serial_no: serialNo } });
     } catch (error) {
-      console.error("Error submitting vehicle data:", error);
-      setErrorMessage("Failed to submit vehicle data. Please try again.");
+      if (error.response) {
+        console.error("Server error response:", error.response.data);
+        if (error.response.status === 409) {
+          setErrorMessage("Conflict: The data provided may already exist or be invalid. Please check your input.");
+        } else {
+          setErrorMessage(`Error: ${error.response.data.message || "An unexpected error occurred."}`);
+        }
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        setErrorMessage("No response from server. Please check your network connection.");
+      } else {
+        console.error("Error setting up request:", error.message);
+        setErrorMessage("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

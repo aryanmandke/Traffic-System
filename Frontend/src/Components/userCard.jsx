@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { format } from "date-fns";
-import '../Design/userCard.css'; // Ensure this path matches your actual file location
-
+import "../Design/userCard.css"; // Ensure this path matches your actual file location
 
 const UserCard = ({ user, onUpdateMessage }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -36,7 +35,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/add-police-message`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/v1/add-police-message`,
         {
           serial_no: user.serial_no, // Include serial_no in the body
           message: newMessage,
@@ -54,11 +53,15 @@ const UserCard = ({ user, onUpdateMessage }) => {
           onUpdateMessage(updatedMessage);
         }
       } else {
-        throw new Error("Failed to update message. Unexpected response.");
+        setErrorMessage("Failed to update message. Unexpected response.");
       }
     } catch (error) {
       console.error("Error updating message:", error);
-      setErrorMessage("Failed to update message. Please try again.");
+      if (error.response?.status === 404) {
+        setErrorMessage("The requested resource was not found (404).");
+      } else {
+        setErrorMessage("Failed to update message. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -71,25 +74,23 @@ const UserCard = ({ user, onUpdateMessage }) => {
       </div>
     );
   }
-  
 
   return (
-    
     <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-lg hover:shadow-xl transition-transform transform hover:scale-105 w-72">
       <ul className="list-group list-group-flush">
         <li className="list-group-item p-4">
           <span className="text-gray-700">
-            <span className="font-medium">Serial No:</span> {user.serial_no || "3"}
+            <span className="font-medium">Serial No:</span> {user.serial_no || "N/A"}
           </span>
         </li>
         <li className="list-group-item p-4">
           <span className="text-gray-700">
-            <span className="font-medium">Vehicle No:</span> {user.vehicle_no || "Mh 01 AH 1111"}
+            <span className="font-medium">Vehicle No:</span> {user.vehicle_no || "N/A"}
           </span>
         </li>
         <li className="list-group-item p-4">
           <span className="text-gray-700">
-            <span className="font-medium">Type of Vehicle:</span> {user.type_of_vehicle || "Ambulance"}
+            <span className="font-medium">Type of Vehicle:</span> {user.type_of_vehicle || "N/A"}
           </span>
         </li>
         <li className="list-group-item p-4">
@@ -97,7 +98,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
             <span className="font-medium">Source:</span>{" "}
             {user.source?.lat && user.source?.lng
               ? `Lat: ${user.source.lat}, Lng: ${user.source.lng}`
-              : "19.203, 72.851"}
+              : "N/A"}
           </span>
         </li>
         <li className="list-group-item p-4">
@@ -105,62 +106,61 @@ const UserCard = ({ user, onUpdateMessage }) => {
             <span className="font-medium">Destination:</span>{" "}
             {user.destination?.lat && user.destination?.lng
               ? `Lat: ${user.destination.lat}, Lng: ${user.destination.lng}`
-              : "19.208, 72.846"}
+              : "N/A"}
           </span>
         </li>
         <li className="list-group-item p-4 flex justify-between items-center">
           {isEditing ? (
             <div style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%" }}>
-            <input
-              type="text"
-              value={newMessage}
-              onChange={handleMessageChange}
-              style={{
-                padding: "8px",
-                border: "2px solid #d1d5db", // gray-300
-                borderRadius: "8px",
-                width: "100%",
-                fontSize: "16px",
-                outline: "none",
-                transition: "border-color 0.3s ease",
-              }}
-              placeholder="Enter new message"
-              aria-label="Edit message"
-              disabled={isLoading}
-            />
-            <button
-              onClick={handleSave}
-              style={{
-                padding: "8px 16px",
-                color: "#10b981", // green-500
-                cursor: "pointer",
-                border: "none",
-                background: "transparent",
-                fontSize: "16px",
-                transition: "color 0.3s ease",
-              }}
-              disabled={isLoading}
-              aria-label="Save message"
-            >
-              {isLoading ? "Saving..." : "Save"}
-            </button>
-            <button
-              onClick={handleCancel}
-              style={{
-                padding: "8px 16px",
-                color: "#f43f5e", // red-500
-                cursor: "pointer",
-                border: "none",
-                background: "transparent",
-                fontSize: "16px",
-                transition: "color 0.3s ease",
-              }}
-              aria-label="Cancel editing"
-            >
-              Cancel
-            </button>
-          </div>
-          
+              <input
+                type="text"
+                value={newMessage}
+                onChange={handleMessageChange}
+                style={{
+                  padding: "8px",
+                  border: "2px solid #d1d5db", // gray-300
+                  borderRadius: "8px",
+                  width: "100%",
+                  fontSize: "16px",
+                  outline: "none",
+                  transition: "border-color 0.3s ease",
+                }}
+                placeholder="Enter new message"
+                aria-label="Edit message"
+                disabled={isLoading}
+              />
+              <button
+                onClick={handleSave}
+                style={{
+                  padding: "8px 16px",
+                  color: "#10b981", // green-500
+                  cursor: "pointer",
+                  border: "none",
+                  background: "transparent",
+                  fontSize: "16px",
+                  transition: "color 0.3s ease",
+                }}
+                disabled={isLoading}
+                aria-label="Save message"
+              >
+                {isLoading ? "Saving..." : "Save"}
+              </button>
+              <button
+                onClick={handleCancel}
+                style={{
+                  padding: "8px 16px",
+                  color: "#f43f5e", // red-500
+                  cursor: "pointer",
+                  border: "none",
+                  background: "transparent",
+                  fontSize: "16px",
+                  transition: "color 0.3s ease",
+                }}
+                aria-label="Cancel editing"
+              >
+                Cancel
+              </button>
+            </div>
           ) : (
             <div className="flex justify-between items-center w-full">
               <span className="text-gray-700">
@@ -182,7 +182,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
       )}
       <p className="text-gray-500 text-sm mt-4 border-t pt-3">
         <span className="font-medium">Joined:</span>{" "}
-        {user.createdAt ? format(new Date(user.createdAt), "PPPpp") : "23/12/2024"}
+        {user.createdAt ? format(new Date(user.createdAt), "PPPpp") : "N/A"}
       </p>
     </div>
   );

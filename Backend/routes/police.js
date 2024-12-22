@@ -45,7 +45,10 @@ const locationSchema = Joi.object({
 // Route: Get all driver data
 router.get("/get-user-data", async (req, res) => {
   try {
-    const users = await User.find().sort({ createdAt: -1 }).select("serial_no type_of_vehicle vehicle_number source destination message").lean();
+    const users = await User.find()
+      .sort({ createdAt: -1 })
+      .select("serial_no type_of_vehicle vehicle_number source destination message")
+      .lean();
 
     const userData = users.map((user) => ({
       serial_no: user.serial_no,
@@ -79,7 +82,9 @@ router.post("/add-police-message", async (req, res) => {
       { serial_no: value.serial_no },
       { message: value.message },
       { new: true }
-    ).select("serial_no message").lean();
+    )
+      .select("serial_no message")
+      .lean();
 
     if (!updatedUser) {
       return sendErrorResponse(res, 404, "Driver not found.");
@@ -138,7 +143,9 @@ router.post("/update-location", async (req, res) => {
       { serial_no: value.serial_no },
       { source: value.source, destination: value.destination },
       { new: true }
-    ).select("serial_no source destination").lean();
+    )
+      .select("serial_no source destination")
+      .lean();
 
     if (!updatedUser) {
       return sendErrorResponse(res, 404, "Driver not found.");
