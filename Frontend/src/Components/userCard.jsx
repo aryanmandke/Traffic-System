@@ -75,17 +75,17 @@ const UserCard = ({ user, onUpdateMessage }) => {
       <ul className="list-group list-group-flush">
         <li className="list-group-item p-4">
           <span className="text-gray-700">
-            <span className="font-medium">Serial No:</span> {user.serial_no || "N/A"}
+            <span className="font-medium">Serial No:</span> {user.serial_no || "3"}
           </span>
         </li>
         <li className="list-group-item p-4">
           <span className="text-gray-700">
-            <span className="font-medium">Vehicle No:</span> {user.vehicle_no || "N/A"}
+            <span className="font-medium">Vehicle No:</span> {user.vehicle_no || "Mh 01 AH 1111"}
           </span>
         </li>
         <li className="list-group-item p-4">
           <span className="text-gray-700">
-            <span className="font-medium">Type of Vehicle:</span> {user.type_of_vehicle || "N/A"}
+            <span className="font-medium">Type of Vehicle:</span> {user.type_of_vehicle || "Ambulance"}
           </span>
         </li>
         <li className="list-group-item p-4">
@@ -93,7 +93,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
             <span className="font-medium">Source:</span>{" "}
             {user.source?.lat && user.source?.lng
               ? `Lat: ${user.source.lat}, Lng: ${user.source.lng}`
-              : "N/A"}
+              : "19.203, 72.851"}
           </span>
         </li>
         <li className="list-group-item p-4">
@@ -101,7 +101,7 @@ const UserCard = ({ user, onUpdateMessage }) => {
             <span className="font-medium">Destination:</span>{" "}
             {user.destination?.lat && user.destination?.lng
               ? `Lat: ${user.destination.lat}, Lng: ${user.destination.lng}`
-              : "N/A"}
+              : "19.208, 72.846"}
           </span>
         </li>
         <li className="list-group-item p-4 flex justify-between items-center">

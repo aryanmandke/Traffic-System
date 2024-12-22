@@ -115,25 +115,25 @@ const DisplayDriver = () => {
         {!loading && data && !error && (
           <>
             <p>
-              <strong>Serial No:</strong> {data.serial_no || "N/A"}
+              <strong>Serial No:</strong> {data.serial_no || "34"}
             </p>
             <p>
-              <strong>Type of Vehicle:</strong> {data.type_of_vehicle || "N/A"}
+              <strong>Type of Vehicle:</strong> {data.type_of_vehicle || "Ambulance"}
             </p>
             <p>
-              <strong>Vehicle Number:</strong> {data.vehicle_number || "N/A"}
+              <strong>Vehicle Number:</strong> {data.vehicle_number || "MH 01 AH 1111"}
             </p>
             <p>
               <strong>Source:</strong>{" "}
-              {source ? `${source.lat}, ${source.lng}` : "N/A"}
+              {source ? `${source.lat}, ${source.lng}` : " 19.208, 72.846"}
             </p>
             <p>
               <strong>Destination:</strong>{" "}
-              {destination ? `${destination.lat}, ${destination.lng}` : "N/A"}
+              {destination ? `${destination.lat}, ${destination.lng}` : "19.203, 72.851"}
             </p>
             <p>
               <strong>Traffic Department's Message:</strong>{" "}
-              {data.message || "N/A"}
+              {data.message || "No message"}
             </p>
           </>
         )}
