@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from "@react-google-maps/api";
 
 // Default coordinates for source and destination
 const defaultSource = { lat: 19.022237, lng: 72.856052 }; // Mumbai
@@ -20,6 +20,9 @@ const MapView = ({ locations = [], onSourceChange, onDestinationChange }) => {
   // State to hold the source and destination markers
   const [source, setSource] = useState(defaultSource);
   const [destination, setDestination] = useState(defaultDestination);
+
+  // State for InfoWindow visibility
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
   // Update source and destination markers if locations prop changes
   useEffect(() => {
@@ -62,7 +65,7 @@ const MapView = ({ locations = [], onSourceChange, onDestinationChange }) => {
         <Marker
           position={source}
           title="Source"
-          onClick={() => onSourceChange && onSourceChange(source)}
+          onClick={() => setSelectedMarker(source)} // Set source marker as selected
         />
       )}
 
@@ -71,8 +74,21 @@ const MapView = ({ locations = [], onSourceChange, onDestinationChange }) => {
         <Marker
           position={destination}
           title="Destination"
-          onClick={() => onDestinationChange && onDestinationChange(destination)}
+          onClick={() => setSelectedMarker(destination)} // Set destination marker as selected
         />
+      )}
+
+      {/* InfoWindow for selected marker */}
+      {selectedMarker && (
+        <InfoWindow
+          position={selectedMarker}
+          onCloseClick={() => setSelectedMarker(null)} // Close InfoWindow when clicked
+        >
+          <div>
+            <strong>Latitude:</strong> {selectedMarker.lat} <br />
+            <strong>Longitude:</strong> {selectedMarker.lng}
+          </div>
+        </InfoWindow>
       )}
     </GoogleMap>
   );

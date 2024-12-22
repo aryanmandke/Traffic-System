@@ -1,0 +1,152 @@
+/* Main Card Styles */
+.user-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb; /* Light Gray Border */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 320px;
+    max-width: 100%;
+    margin: 16px; /* Adds margin around each card */
+  }
+  
+  .user-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* List Item Styles */
+  .list-group-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb; /* Light Gray Border */
+  }
+  
+  .list-group-item:last-child {
+    border-bottom: none;
+  }
+  
+  /* Text Styles */
+  .text-gray-700 {
+    color: black; /* Ensures all text in the card is black */
+    font-size: 16px;
+  }
+  
+  .font-medium {
+    font-weight: 500;
+  }
+  
+  .text-sm {
+    font-size: 14px;
+  }
+  
+  /* Edit and Display Message Section */
+  .message-edit-container {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  
+  .message-input {
+    padding: 10px;
+    border: 2px solid #d1d5db; /* Light Gray Border */
+    border-radius: 8px;
+    font-size: 16px;
+    width: calc(100% - 100px); /* Adjusted for button space */
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .message-input:focus {
+    border-color: #10b981; /* Green-500 */
+  }
+  
+  .save-btn,
+  .cancel-btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .save-btn {
+    background-color: #10b981; /* Green-500 */
+    color: white;
+    border: none;
+  }
+  
+  .save-btn:hover {
+    background-color: #16a34a; /* Green-600 */
+  }
+  
+  .cancel-btn {
+    background-color: #f43f5e; /* Red-500 */
+    color: white;
+    border: none;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #ef4444; /* Red-600 */
+  }
+  
+  /* Edit Icon */
+  .edit-icon {
+    font-size: 18px;
+    color: #6b7280; /* Gray-500 */
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .edit-icon:hover {
+    color: #4b5563; /* Gray-700 */
+  }
+  
+  /* Error Message */
+  .error-message {
+    text-align: center;
+    color: #f43f5e; /* Red-500 */
+    font-size: 14px;
+    margin-top: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background-color: #fef2f2; /* Light Red background */
+  }
+  
+  /* Join Date Styles */
+  .join-date {
+    text-align: left;
+    color: black; /* Ensures the join date text is black */
+    font-size: 14px;
+    margin-top: 16px;
+    border-top: 1px solid #e5e7eb; /* Light Gray Border */
+    padding-top: 12px;
+  }
+  
+  /* Card Container (for multiple cards) */
+  .user-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .user-card-container .user-card {
+    margin: 16px; /* Spacing between multiple cards */
+    width: calc(33% - 32px); /* Three cards per row with spacing */
+  }
+  
+  @media (max-width: 768px) {
+    .user-card-container .user-card {
+      width: calc(50% - 32px); /* Two cards per row on medium screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .user-card-container .user-card {
+      width: 100%; /* One card per row on smaller screens */
+    }
+  }
+  
